@@ -1,0 +1,42 @@
+<?php
+/**
+* Country Cookie
+*
+* @var $block \Cogensoft\Multisite\Block\CountryCookie
+*/
+?>
+<script>
+    var canRedirect = <?= $block->canRedirect() ? 'true' : 'false' ?>;
+
+    require([
+        'jquery',
+        'mage/cookies'
+    ], function ($) {
+          function addCountryCookie(countryCode) {
+            $.cookie('country',countryCode , {path: '/', domain: '<?= $_SERVER['HTTP_HOST'] ?>'});
+          }
+
+          if (canRedirect) {
+            $.ajax({
+                url: '<?= $block->getBaseUrl() ?>multisite/check/redirect',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    url: window.location.href
+                },
+                global: false,
+                success: function (response) {
+                    if (response.redirect === true) {
+                      addCountryCookie(response.country);
+                      window.location.replace(response.url);
+                    }
+                    else if(response.country !== null) {
+                      addCountryCookie(response.country);
+                    }
+                }
+            });
+        } else {
+            setCountryCookie();
+        }
+    })
+</script>

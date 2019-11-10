@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="header.panel">
+            <referenceBlock name="currency" remove="true" />
+            <block class="Cogensoft\Multisite\Block\WebsiteSwitcher" name="ml_website_switcher" before="store_language" template="Cogensoft_Multisite::switch/websites.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="head.additional">
+            <block name="set_country_cookie" class="Cogensoft\Multisite\Block\CountryCookie" template="country_cookie.phtml" after="-"/>
+        </referenceBlock>
+    </body>
+</page>
